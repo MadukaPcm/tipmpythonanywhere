@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from multiprocessing import context
 from urllib import request
 from django.contrib import messages

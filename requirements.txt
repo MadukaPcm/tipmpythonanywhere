@@ -6,4 +6,3 @@ psycopg2-binary==2.9.3
 pytz==2022.4
 sqlparse==0.4.3
 uuid==1.30
-pywin32
