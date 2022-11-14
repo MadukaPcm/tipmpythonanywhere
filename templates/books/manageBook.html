@@ -1,0 +1,120 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Book</h1>
+
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">
+                {{ message }}
+              </div>
+             {% endfor %}
+            {% endif %}
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'profile_url' %}">My Profile</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+          <section class="#">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-10">
+                  <p>Manage and update library books</p>
+                </div>
+
+                {% if perms.uaa.delete_user %}
+                <div class="col-sm-2">
+                  <a class="btn btn-primary pull-right" href="{% url 'createBook_url' %}">Add Book</a>
+                </div>
+                {% endif %}
+                
+              </div>
+            </div><!-- /.container-fluid -->
+          </section>
+
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-sm mx-auto table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Book Number</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Published</th>
+
+                {% if perms.uaa.delete_user %}
+                <th>Actions</th>
+                {% endif %}
+
+              </tr>
+              </thead>
+              <tbody>
+                {% for bookData in bookObjectData %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ bookData.bookNumber }}</td>
+                  <td>{{ bookData.title }}</td>
+                  <td>{{ bookData.categoryId.categoryName }}</td>
+                  <td>{{ bookData.author }}</td>
+                  <td>{{ bookData.yearOfPublication }}</td>
+
+                  {% if perms.uaa.delete_user %}
+                  <td>
+                    <a class="fa fa-eye btn-sm btn-primary" title="view" href="{% url 'actionViewBook_url' bookData.id %}"></a>
+                    <a class="fa fa-edit btn-sm btn-primary" title="view/edit" href="{% url 'actionUpdateBookView_url' bookData.id %}"></a>
+                    <a class="fa fa-trash btn-sm btn-danger" title="delete" href="{% url 'actionDeleteBookView_url' %}?delete_id={{bookData.id}}"></a>
+                  </td>
+                  {% endif %}
+
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th>Book Number</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Author</th>
+                  <th>Publicshed</th>
+
+                  {% if perms.uaa.delete_user %}
+                  <th>Actions</th>
+                  {% endif %}
+
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+       
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

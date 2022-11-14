@@ -1,0 +1,14 @@
+{% extends 'auth/authbase.html' %}
+{% block content %}
+
+  <div class="card">
+    <div class="card-body register-card-body">
+      <h3 class="login-box-msg">Error</h3>
+      <p>
+        <a href="{% url 'login_url' %}" class="text-center">back</a>
+      </p>
+    </div>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+
+{% endblock content %}

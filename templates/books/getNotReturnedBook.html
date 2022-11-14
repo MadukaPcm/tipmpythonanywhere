@@ -1,0 +1,109 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Book Not Returned</h1>
+
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">
+                {{ message }}
+              </div>
+            {% endfor %}
+            {% endif %}
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'notReturnedBookView_url' %}">Back</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-5">
+
+            <div class="card bg-dark text-white">
+              <img class="card-img" src="{{getNotReturnedBook.bookId.coverPageImage.url}}" alt="verify request">
+              <div class="card-img-overlay">
+                <h5 class="card-title">{{ getNotReturnedBook.bookId.title }}</h5>
+                <p class="card-text">{{ getNotReturnedBook.bookId.author }}</p>
+                <p class="card-text">{{ getNotReturnedBook.bookId.categoryId.categoryName }}</p>
+                <p class="card-text">{{ getNotReturnedBook.bookId.description }}</p> 
+              </div>
+            </div>
+
+          </div>
+          <!-- /.col -->
+          <div class="col-md-7">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">View Details</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="settings">
+
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+
+                            <a href="#" class="btn btn-primary btn-block"><b>Took By</b></a>
+                          <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                              <b>Full Name:</b> <a class="float-right">{{ getNotReturnedBook.userId.first_name }} {{ getNotReturnedBook.userId.last_name }}</a>
+                            </li>
+                            <li class="list-group-item">
+                              <b>Registration Number:</b> <a class="float-right">{{ getNotReturnedBook.userId.username }}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Return Date:</b> <a class="float-right">{{ getNotReturnedBook.dueDate|date:"d/m/Y" }}</a>
+                            </li>
+                          </ul>
+
+                          <a href="#" class="btn btn-primary btn-block"><b>Communications Details</b></a>
+                          <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                              <b>Phone Number:</b> <a class="float-right">{{ getNotReturnedBook.userId.phone_number }}</a>
+                            </li>
+                            <li class="list-group-item">
+                              <b>Email Address:</b> <a class="float-right">{{ getNotReturnedBook.userId.email }}</a>
+                            </li>
+                          </ul>
+
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

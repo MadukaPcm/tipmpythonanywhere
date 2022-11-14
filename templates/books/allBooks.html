@@ -1,0 +1,78 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-3">
+            <h4 class="m-0"><a href="{% url 'allEBooks_url' %}"><u>All e-Books</u></a></h4>
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">
+                {{ message }}
+              </div>
+            {% endfor %}
+            {% endif %}
+          </div><!-- /.col -->
+
+          <div class="col-sm-5">
+            <form class="form-inline my-2 my-lg-0">
+              <div class="form-control mr-sm-2">
+              <select class="col-sm-10" style="width: 100%; border:none;" id="selectBookCategoryId" name="q">
+                {% for cat in categoty_id %}
+                <option style="width: 100%; border:none;" value="{{ cat.id }}">{{ cat.categoryName }}</option>
+                {% endfor %}
+              </select>
+              </div>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+
+          <div class="col-sm-4">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" name="q" placeholder="search book" aria-label="search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div><!-- /.col -->
+
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+ 
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+
+            <div class="clearfix hidden-md-up"></div>
+            
+            {% for bk in book %}
+            <div class="col-12 col-sm-6 col-md-3 modify">
+                <a href="{% url 'RequestBook_url' bk.id %}">
+                    <div class="info-box mb-3">
+                        {% if bk.coverPageImage %}
+                        <img src="{{bk.coverPageImage.url}}" class="img-fluid" title="request {{bk.title}} book">
+                        {% endif %}
+                    </div>
+                </a>
+            <!-- /.info-box -->
+            </div>
+            {% endfor %}
+
+            
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

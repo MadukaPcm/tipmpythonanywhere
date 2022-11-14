@@ -1,0 +1,152 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Request Book</h1>
+
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">
+                {{ message }}
+              </div>
+             {% endfor %}
+            {% endif %}
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'manageBookView_url' %}">Back</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+
+          </div>
+          <!-- /.col -->
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Create Book Now</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="settings">
+
+                    <form action="{% url 'createBook_url' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                      {% csrf_token %}
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Book Category: </label>
+                        <select class="col-sm-10" id="selectGender" name="categoryId">
+                          {% for book_category in categoty_id %}
+                          <option value="{{ book_category.id }}">{{ book_category.categoryName }}</option>
+                          {% endfor %}
+                        </select>
+                      </div> 
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Book Number: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="bookNumber" class="form-control" id="inputName" placeholder="1222-98" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Title: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="title" class="form-control" id="inputName" placeholder="The story danger" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Author: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="author" class="form-control" id="inputName" placeholder="isbmm kiombo" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Isbn: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="isbn" class="form-control" id="inputName" placeholder="12nnxjj" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Publisher: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="publisher" class="form-control" id="inputName" placeholder="tipm institute" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Place Of Publication: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="placeOfPublication" class="form-control" id="inputName" placeholder="tipm dsm" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Year Of Publication: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="yearOfPublication" class="form-control" id="inputName" placeholder="2003" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Cover Page Image</label>
+                        <div class="col-sm-10">
+                          <input type="file" name="coverPageImage" class="form-control" id="inputName">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">description: </label>
+                        <div class="col-sm-10">
+                          <input type="text" name="description" class="form-control" id="inputName" placeholder="book descriprions" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                          <button type="submit" class="btn btn-primary">save</button>
+                        </div>
+                      </div>
+
+                    </form>
+
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

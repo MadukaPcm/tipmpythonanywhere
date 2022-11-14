@@ -1,0 +1,97 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Issued Books</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'profile_url' %}">My Profile</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-sm mx-auto table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Taken by</th>
+                <th>Book title</th>
+                <th>Issue date</th>
+                <th>Phone Number</th>
+
+                {% if perms.uaa.delete_user %}
+                <th>Actions</th>
+                {% endif %}
+
+              </tr>
+              </thead>
+              <tbody>
+                {% for pendingApprovdB in pendingApprovdBook %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ pendingApprovdB.userId.first_name }} {{ pendingApprovdB.userId.last_name }}</td>
+                  <td>{{ pendingApprovdB.bookId.title }}</td>
+                  <td>{{ pendingApprovdB.issueDate|date:"d/m/Y" }}</td>
+                  <td>{{ pendingApprovdB.userId.phone_number }}</td>
+
+                  {% if perms.uaa.delete_user %}
+                  <td>
+
+                    {% if pendingApprovdB.isPending %}
+                    <a class="fa fa-times btn-sm btn-warning" title="verify" href="{% url 'verifyPedingView_url' %}?verify_id={{pendingApprovdB.id}}"></a>
+                    {% endif %}
+
+                    {% if pendingApprovdB.isApproved %}
+                    <a class="fa fa-check btn-sm btn-success" title="approve" href="{% url 'approveVerifiedView_url' %}?approve_id={{pendingApprovdB.id}}"></a>
+                    {% endif %}
+
+                  </td>
+                  {% endif %}
+                 
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Taken by</th>
+                    <th>Book title</th>
+                    <th>Issue date</th>
+                    <th>Phone Number</th>
+
+                    {% if perms.uaa.delete_user %}
+                    <th>Actions</th>
+                    {% endif %}
+
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+       
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

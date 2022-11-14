@@ -1,0 +1,390 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tipm</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+
+    <style>
+      div.modify{
+        box-shadow:0 4px 8px 0 rgb(0,0,0,0.2),0 6px 20px 0 rgb(0,0,0,0.19);
+        elevation:angle;
+      }
+
+      li:hover a p {
+        display: block;
+        box-shadow: 8px 9px 10px #850101;
+        padding: 10px;
+        elevation: 5px;
+        border-radius: 5px;
+        border: none;
+      }
+
+      li a p {
+        color: black;
+      }
+    </style>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__wobble" src="{% static 'dist/img/logo.png' %}" alt="tipm logo" height="60" width="60">
+  </div>
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-dark" style="background-image: linear-gradient(to right, #99FF99, #850101);">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="color: black;"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'dashboard_url' %}" class="nav-link" style="color: black;">Home</a>
+      </li>
+      {% comment %} <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li> {% endcomment %}
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+
+      <li class="nav-item dropdown">
+        
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-primary navbar-badge">{{ totalNotifications }}</span>
+        </a>
+       
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header"> Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> {{ totalNotifications }} new messages
+            <span class="float-right text-muted text-sm">{{ toDay }}</span>
+          </a>
+
+          {% if perms.uaa.view_user %}
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-book-open mr-2"></i> {{ requestedBookNumber }} book requests
+            {% comment %} <span class="float-right text-muted text-sm">12 hours</span> {% endcomment %}
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-book mr-2"></i> {{ takenBookNumber }} book Taken
+          </a>
+          {% endif %}
+
+          {% if perms.book.view_book %}
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-book mr-2"></i> {{ bookHavingNumber }} book I have
+          </a>
+          {% endif %}
+          
+        </div>
+      </li>
+
+      <li class="nav-item">         
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-primary elevation-4" style="background-image: linear-gradient(to bottom, #f0fff0, #99FF99, #850101);">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="{% static 'dist/img/logo.png' %}" alt="welcome tipm" class="brand-image img-circle elevation-3" style="background-color: #ffffff80;">
+      <span class="brand-text font-weight-dark">TIPM_LBRY</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ request.user.profileImage.url }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{{request.user.first_name}} {{request.user.last_name}}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item menu-open">
+            <a href="{% url "profile_url" %}" class="nav-link" style="background-color: #99FF99; elevation: 5px;">
+            <i class="left fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+            </li>
+
+            {% if perms.uaa.view_user %}
+            <li class="nav-item">
+                <a href="{% url 'allUsers_url' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>System Users</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{% url 'registrationNoView_url' %}" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>User Reg-Numbers</p>
+               </a>
+             </li>
+
+             <li class="nav-item">
+              <a href="{% url 'manageTip_url' %}" class="nav-link">
+                 <i class="far fa-circle nav-icon"></i>
+                 <p>Daily+Tips</p>
+               </a>
+             </li>
+            {% endif %}
+
+            {% if perms.book.view_book %}
+            <li class="nav-item">
+                <a href="{% url 'Book_url' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>All Books</p>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if perms.book.change_book %}
+            <a href="#" class="nav-link" style="background-color: #98fb98;">
+              <i class="left fas fa-book text-primary"></i>
+              <p>
+                <b></b>Hardcopy Books
+              </p>
+            </a>
+
+            <li class="nav-item">
+                <a href="{% url 'issuedBookView_url' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Issued Book</p>
+                </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'borrowedBookView_url' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Taken Book</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'returnedBookView_url' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Returned Book</p>
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'notReturnedBookView_url' %}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Not Returned Book</p>
+            </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'manageBookView_url' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Books Actions</p>
+          </a>
+        </li>  
+
+        {% comment %} #online library books issues. {% endcomment %}
+        <a href="#" class="nav-link" style="background-color: #98fb98;">
+          <i class="left fas fa-file-pdf text-primary"></i>
+          <p>
+            <b>Softcopy Books</b>
+          </p>
+        </a>
+
+        <li class="nav-item">
+          <a href="{% url 'onlineView_url' %}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>pdf books</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{% url 'readeBookView_url' %}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>read e-Book status</p>
+          </a>
+        </li>
+        {% endif %}
+
+
+        {% if perms.book.view_book %}
+        <a href="#" class="nav-link" style="background-color: #98fb98;">
+          <i class="left fas fa-info text-primary"></i>
+          <p>
+            <b>Book Status</b>
+          </p>
+        </a>
+
+        <li class="nav-item">
+          <a href="{% url 'booksPendingView_url' %}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Books Pending</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'booksApprovedView_url' %}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Books  Approved</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'booksITookView_url' %}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Books, I Took</p>
+          </a>
+        </li>
+
+      {% endif %}
+
+
+      {% if perms.book.change_book %}      
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fa fa-cog" aria-hidden="true" style="color:black;"></i>
+          <p>
+            Settings
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="{% url 'categoryBookView_url' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Books, Category</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'maxBookLimitView_url' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Book, limit number</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+      {% endif %}
+
+
+      </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  {% block content %}
+  
+  {% endblock content %}
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2022-2023 <a href="#">TIPM</a></strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0.0
+    </div>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+<!-- PAGE PLUGINS -->
+<!-- jQuery Mapael -->
+<script src="{% static 'plugins/jquery-mousewheel/jquery.mousewheel.js' %}"></script>
+<script src="{% static 'plugins/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'plugins/jquery-mapael/jquery.mapael.min.js' %}"></script>
+<script src="{% static 'plugins/jquery-mapael/maps/usa_states.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static 'dist/js/pages/dashboard2.js' %}"></script>
+
+<!-- Page specific script -->
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+</body>
+</html>

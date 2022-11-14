@@ -1,0 +1,94 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h3>Manage Book Category</h3>
+
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">
+                {{ message }}
+              </div>
+             {% endfor %}
+            {% endif %}
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'profile_url' %}">My Profile</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+          <section class="#">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-10">
+                  <p>Manage and update books Category</p>
+                </div>
+
+                {% if perms.uaa.delete_user %}
+                <div class="col-sm-2">
+                  <a class="btn btn-primary pull-right" href="{% url 'createCategoryBookView_url' %}">Add Category</a>
+                </div>
+                {% endif %}
+                
+              </div>
+            </div><!-- /.container-fluid -->
+          </section>
+
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-sm mx-auto table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Category Name</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for categoryData in categoryBook %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ categoryData.categoryName }}</td>
+                  <td>
+                    <a class="fa fa-edit btn-sm btn-primary" title="edit" href="{% url 'updateCategoryBookView_url' categoryData.id %}"></a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+       
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}

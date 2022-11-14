@@ -1,0 +1,89 @@
+{% extends 'base/mainbase.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Books, Returned</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard_url' %}">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'profile_url' %}">My Profile</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-sm mx-auto table-bordered table-striped">
+              <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Returned by</th>
+                    <th>Book title</th>
+                    <th>Due date</th>
+                    <th>Phone Number</th>
+
+                    {% if perms.uaa.delete_user %}
+                    <th>Actions</th>
+                    {% endif %}
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for returnedB in returnedBook %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ returnedB.userId.first_name }} {{ returnedB.userId.last_name }}</td>
+                      <td>{{ returnedB.bookId.title }}</td>
+                      <td>{{ returnedB.dueDate|date:"d/m/Y" }}</td>
+                      <td>{{ returnedB.userId.phone_number }}</td>
+
+                      {% if perms.uaa.delete_user %}
+                      <td>
+                        <a class="fa fa-eye btn-sm btn-primary" title="lock" href="{% url 'getReturnedBookView_url' returnedB.id %}"></a>
+                      </td>
+                      {% endif %}
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Returned by</th>
+                        <th>Book title</th>
+                        <th>Due date</th>
+                        <th>Phone Number</th>
+
+                        {% if perms.uaa.delete_user %}
+                        <th>Actions</th>
+                        {% endif %}
+                        
+                    </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+       
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% endblock content %}
