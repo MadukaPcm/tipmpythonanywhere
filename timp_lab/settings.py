@@ -94,7 +94,7 @@ DATABASES = {
         'CONN_MAX_AGE': 0,
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tipmdb',
-        'USER':'postgres',
+        'USER':'tipmcoder',
         'PASSWORD': 'tipm@1',
         'HOST':'localhost',
     }
