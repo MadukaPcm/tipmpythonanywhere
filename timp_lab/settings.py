@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-55n23@^x*ich*2!yhub)+0@%0*jf%v$7fz7c7w0qqudeq72v2a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["164.92.125.110"]
 
 
 # Application definition
@@ -80,28 +80,25 @@ WSGI_APPLICATION = 'timp_lab.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ATOMIC_REQUESTS': False,
-#         'AUTOCOMMIT': True,
-#         'CONN_MAX_AGE': 0,
-#         # 'ENGINE': 'django.db.backends.postgresql',
-#         'ENGINE': 'django.db.backends.mysql',
-#         #'NAME': BASE_DIR / 'db.sqlite3',
-#         'NAME': 'tipmdb',
-#         'USER':'postgres',
-#         'PASSWORD': 'madukapcm',
-#         'HOST':'localhost',
-
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ATOMIC_REQUESTS': False,
+        'AUTOCOMMIT': True,
+        'CONN_MAX_AGE': 0,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tipmdb',
+        'USER':'postgres',
+        'PASSWORD': 'tipm@1',
+        'HOST':'localhost',
+    }
+}
 
 
 # Password validation
@@ -143,6 +140,8 @@ USE_TZ = True
 # Dealing with static files...
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #dealing with media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
